@@ -54,24 +54,26 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+  
       - name: Compare .gitignore with expected content
         env:
           EXPECTED_GITIGNORE: ${{ secrets.EXPECTED_GITIGNORE }}
         run: |
-          # Write the expected version from secret to a temp file
-          echo "$EXPECTED_GITIGNORE" > /tmp/expected_gitignore
-          
-          # Compare with the current .gitignore
+          # Normalize newlines to avoid diff mismatch
+          echo "$EXPECTED_GITIGNORE" | sed '/^$/d' > /tmp/expected_gitignore
+          sed -i '/^$/d' .gitignore
+  
+          # Compare files
           if ! diff -q .gitignore /tmp/expected_gitignore > /dev/null 2>&1; then
             echo "::error::.gitignore has been modified! This file is protected and cannot be changed."
             echo ""
             echo "Differences found:"
-            diff --color=always .gitignore /tmp/expected_gitignore || true
+            diff .gitignore /tmp/expected_gitignore || true
             exit 1
           fi
-          
-          echo ".gitignore integrity check passed."
+  
+          echo "✅ .gitignore integrity check passed"
+
 
   lint:
     name: Lint
