@@ -2,9 +2,13 @@
 
 Congratulations! You've built a complete Pokedex application. Let's put everything together and run it!
 
-## The Main Entry Point
+---
 
-Create `src/app.js` - this is where everything comes together:
+## Step 1: Create the Main Entry Point
+
+1. Create a new file `src/app.js`
+
+2. Add this code:
 
 ```javascript
 import express from 'express';
@@ -86,86 +90,47 @@ if (nodeEnv !== 'test') {
 export default app;
 ```
 
-## Understanding app.js
+3. Save the file
 
-### 1. Middleware Setup
+---
 
-```javascript
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(join(__dirname, '../public')));
-```
+## Step 2: Start the Development Server
 
-| Middleware | Purpose |
-|------------|---------|
-| `express.json()` | Parse JSON in request body |
-| `express.urlencoded()` | Parse form data |
-| `express.static()` | Serve static files (CSS, images) |
-
-### 2. View Engine
-
-```javascript
-app.set('view engine', 'ejs');
-app.set('views', join(__dirname, 'views'));
-```
-
-Tells Express:
-- Use EJS to render templates
-- Templates are in the `views` folder
-
-### 3. Error Handlers
-
-Error handlers have 4 parameters: `(err, req, res, next)`
-
-```javascript
-app.use((err, _req, res, _next) => {
-  res.status(500).render('error', { ... });
-});
-```
-
-The underscore prefix (`_req`) indicates unused parameters.
-
-## Running the Application
-
-### Development Mode
+1. Run the development server:
 
 ```bash
 npm run dev
 ```
 
-This uses `nodemon` to automatically restart when you make changes.
+2. You should see:
 
-Output:
 ```
 [nodemon] watching path(s): *.*
-[nodemon] watching extensions: js,mjs,cjs,json
 [nodemon] starting `node src/app.js`
 Pokedex server running at http://localhost:3000
 ```
 
-### Production Mode
+3. Open your browser to `http://localhost:3000`
 
-```bash
-npm start
-```
+---
 
-Runs without auto-reload.
+## Step 3: Test the Application
 
-## Using the Application
+1. **Home Page** - View the Pokemon grid at `http://localhost:3000`
 
-Open your browser to `http://localhost:3000`
-
-### Features to Try
-
-1. **Home Page** - View the Pokemon grid
 2. **Pagination** - Click "Next" to see more Pokemon
-3. **Search** - Type a Pokemon name and search
+
+3. **Search** - Type a Pokemon name and click search
+
 4. **Filter by Type** - Click a type button to filter
+
 5. **Detail Page** - Click a Pokemon card to see details
 
-### API Endpoints
+---
 
-Test the JSON API with curl or your browser:
+## Step 4: Test the API Endpoints
+
+1. Open a new terminal and test the API:
 
 ```bash
 # Get Pokemon list
@@ -174,194 +139,94 @@ curl http://localhost:3000/api/pokemon
 # Get specific Pokemon
 curl http://localhost:3000/api/pokemon/pikachu
 
-# Search
+# Search Pokemon
 curl "http://localhost:3000/api/pokemon/search?q=char"
 
 # Get types
 curl http://localhost:3000/api/types
-
-# Get Pokemon by type
-curl http://localhost:3000/api/types/fire
 ```
 
-## Running Tests
+2. Verify you receive JSON responses
+
+---
+
+## Step 5: Run Final Checks
+
+1. Stop the dev server (Ctrl+C)
+
+2. Run all quality checks:
 
 ```bash
-# Run all tests with coverage
-npm test
-
-# Expected output:
-# PASS  tests/pokemonService.test.js
-# PASS  tests/api.test.js
-# Test Suites: 2 passed, 2 total
-# Coverage: ~85%
-```
-
-## Code Quality Checks
-
-```bash
-# Check for linting errors
 npm run lint
-
-# Fix linting errors automatically
-npm run lint:fix
-
-# Check code formatting
 npm run format:check
-
-# Format code
-npm run format
+npm test
 ```
 
-## Troubleshooting
+3. All checks should pass
 
-### "Cannot find module" Error
+---
 
-Make sure you've installed dependencies:
-```bash
-npm install
-```
+## Step 6: Commit Your Progress
 
-### "Port 3000 is already in use"
-
-Change the port in `.env`:
-```
-PORT=3001
-```
-
-Or kill the process using port 3000:
-```bash
-# On Windows
-netstat -ano | findstr :3000
-taskkill /PID <PID> /F
-
-# On Mac/Linux
-lsof -i :3000
-kill -9 <PID>
-```
-
-### API Errors
-
-If PokeAPI is down or slow:
-- The app will show error pages
-- Try again in a few minutes
-- Check https://pokeapi.co for status
-
-### Template Errors
-
-Check that:
-- All EJS files are in `src/views/`
-- Partials are in `src/views/partials/`
-- Variable names match between controller and template
-
-## Final Project Structure
-
-```
-pokedex-app/
-├── src/
-│   ├── app.js                  # Main entry point
-│   ├── config/
-│   │   └── index.js            # Configuration
-│   ├── routes/
-│   │   ├── index.js            # Main router
-│   │   └── pokemonRoutes.js    # Pokemon routes
-│   ├── controllers/
-│   │   └── pokemonController.js
-│   ├── services/
-│   │   └── pokemonService.js
-│   ├── repositories/
-│   │   └── pokemonRepository.js
-│   └── views/
-│       ├── index.ejs
-│       ├── pokemon.ejs
-│       ├── error.ejs
-│       └── partials/
-│           ├── header.ejs
-│           └── footer.ejs
-├── public/
-│   └── css/
-│       └── style.css
-├── tests/
-│   ├── api.test.js
-│   └── pokemonService.test.js
-├── .env
-├── .env.example
-├── .gitignore
-├── package.json
-├── jest.config.js
-└── README.md
-```
-
-## What You've Learned
-
-- Setting up a Node.js project with Express
-- Layered architecture (Routes → Controllers → Services → Repositories)
-- Server-side rendering with EJS templates
-- Making HTTP requests with Axios
-- Environment configuration with dotenv
-- CSS Grid and responsive design
-- Testing with Jest and Supertest
-- Code quality with ESLint and Prettier
-
-## Next Steps
-
-Ideas to extend your Pokedex:
-
-1. **Add more features**
-   - Evolution chain display
-   - Pokemon comparison
-   - Favorites list (with localStorage)
-
-2. **Improve performance**
-   - Add caching (Redis or in-memory)
-   - Lazy load images
-   - Pagination in URL (for bookmarking)
-
-3. **Add more tests**
-   - Test edge cases
-   - Add integration tests
-   - Set up CI/CD with GitHub Actions
-
-4. **Deploy your app**
-   - Heroku
-   - Vercel
-   - Railway
-
-## Commit Your Progress
-
-Commit the main application entry point:
+1. Stage your changes:
 
 ```bash
 git add .
+```
+
+2. Commit with the conventional format:
+
+```bash
 git commit -m "feat: add express application entry point
 
 Full Name: Juan Dela Cruz
 Umindanao: juan.delacruz@email.com"
 ```
 
-> **Remember:** Replace the name and email with your own information.
+3. Replace the name and email with your own information
 
-## Push Your Branch
+---
 
-Now that you've completed all sections, push your branch to GitHub:
+## Step 7: Push Your Branch
+
+1. Push your branch to GitHub:
 
 ```bash
 git push -u origin your-lastname/pokedex-pull-request
 ```
 
-Replace `your-lastname/pokedex-pull-request` with your actual branch name (e.g., `dela-cruz/pokedex-pull-request`).
+2. Replace `your-lastname/pokedex-pull-request` with your actual branch name
 
-## Create a Pull Request
+3. Example:
 
-Submit your work by creating a pull request:
+```bash
+git push -u origin dela-cruz/pokedex-pull-request
+```
+
+---
+
+## Step 8: Create a Pull Request
 
 1. Go to the original repository on GitHub
-2. Click **Pull Requests** → **New Pull Request**
-3. Click **compare across forks**
-4. Select your fork and branch
-5. Fill in the PR details:
 
-**Title:** `feat: complete pokedex application`
+2. Click **Pull Requests** → **New Pull Request**
+
+3. Click **compare across forks**
+
+4. Select:
+   - Base repository: the original repo
+   - Base branch: `main`
+   - Head repository: your fork
+   - Compare branch: your branch (e.g., `dela-cruz/pokedex-pull-request`)
+
+5. Click **Create Pull Request**
+
+6. Fill in the PR details:
+
+**Title:**
+```
+feat: complete pokedex application
+```
 
 **Description:**
 ```
@@ -381,7 +246,94 @@ Full Name: Juan Dela Cruz
 Umindanao: juan.delacruz@email.com
 ```
 
-6. Click **Create Pull Request**
+7. Click **Create Pull Request**
+
+---
+
+## Final Project Structure
+
+Your completed project should look like this:
+
+```
+inter-workshop/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── docs/
+│   └── guide/
+├── public/
+│   └── css/
+│       └── style.css
+├── src/
+│   ├── app.js
+│   ├── config/
+│   │   └── index.js
+│   ├── controllers/
+│   │   └── pokemonController.js
+│   ├── repositories/
+│   │   └── pokemonRepository.js
+│   ├── routes/
+│   │   ├── index.js
+│   │   └── pokemonRoutes.js
+│   ├── services/
+│   │   └── pokemonService.js
+│   └── views/
+│       ├── error.ejs
+│       ├── index.ejs
+│       ├── pokemon.ejs
+│       └── partials/
+│           ├── footer.ejs
+│           └── header.ejs
+├── tests/
+│   ├── api.test.js
+│   └── pokemonService.test.js
+├── .env
+├── .env.example
+├── .gitignore
+├── .prettierrc
+├── eslint.config.js
+├── jest.config.js
+├── package.json
+└── package-lock.json
+```
+
+---
+
+## What You've Learned
+
+- Setting up a Node.js project with Express
+- Layered architecture (Routes → Controllers → Services → Repositories)
+- Server-side rendering with EJS templates
+- Making HTTP requests with Axios
+- Environment configuration with dotenv
+- CSS Grid and responsive design
+- Testing with Jest and Supertest
+- Git workflow with conventional commits
+
+---
+
+## Troubleshooting
+
+### "Cannot find module" Error
+
+```bash
+npm install
+```
+
+### "Port 3000 is already in use"
+
+Change the port in `.env`:
+```
+PORT=3001
+```
+
+### Tests Failing
+
+1. Check file paths in your code
+2. Verify all exports are correct
+3. Run `npm run lint:fix` to fix formatting
+
+---
 
 ## Conclusion
 

@@ -2,23 +2,21 @@
 
 Now let's make our Pokedex look amazing with CSS! We'll create a classic Pokedex-inspired design.
 
-## File Location
+---
 
-Create `public/css/style.css`. This file will be served as a static file.
+## Step 1: Create the CSS File
 
-## CSS Structure Overview
+1. Create a new file `public/css/style.css`
 
-Our stylesheet is organized into sections:
+2. This file will contain all our styles
 
-1. Reset & Variables
-2. Layout (Container, Header, Footer)
-3. Search & Filters
-4. Pokemon Grid & Cards
-5. Pokemon Detail Page
-6. Error Page
-7. Responsive Design
+3. Save the file
 
-## Part 1: Reset and CSS Variables
+---
+
+## Step 2: Add Reset and CSS Variables
+
+1. Add this code at the top of `style.css`:
 
 ```css
 /* Reset and Base Styles */
@@ -33,7 +31,6 @@ Our stylesheet is organized into sections:
   --pokedex-red: #dc0a2d;
   --pokedex-dark-red: #a00020;
   --pokedex-cream: #f0f0e8;
-  --pokedex-screen: #98cb98;
   --text-dark: #1a1a2e;
   --text-light: #ffffff;
   --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -68,21 +65,13 @@ body {
 }
 ```
 
-### Understanding CSS Variables
+2. Save the file
 
-CSS variables (custom properties) let you reuse values:
+---
 
-```css
-:root {
-  --my-color: #ff0000;  /* Define */
-}
+## Step 3: Add Layout Styles
 
-.element {
-  color: var(--my-color);  /* Use */
-}
-```
-
-## Part 2: Layout Structure
+1. Add these styles for the main layout:
 
 ```css
 /* Pokedex Container */
@@ -102,7 +91,13 @@ CSS variables (custom properties) let you reuse values:
 }
 ```
 
-## Part 3: Header with Pokedex Styling
+2. Save the file
+
+---
+
+## Step 4: Add Header Styles
+
+1. Add these styles for the header:
 
 ```css
 /* Header */
@@ -122,34 +117,23 @@ CSS variables (custom properties) let you reuse values:
   gap: 15px;
 }
 
-/* The big blue light */
 .big-light {
   width: 60px;
   height: 60px;
   background: linear-gradient(135deg, #7df9ff 0%, #00bfff 50%, #0080ff 100%);
   border-radius: 50%;
   border: 4px solid white;
-  box-shadow:
-    inset -5px -5px 15px rgba(0, 0, 0, 0.3),
-    inset 5px 5px 15px rgba(255, 255, 255, 0.5),
-    0 0 20px rgba(125, 249, 255, 0.5);
+  box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.3),
+              inset 5px 5px 15px rgba(255, 255, 255, 0.5),
+              0 0 20px rgba(125, 249, 255, 0.5);
   animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-  0%, 100% {
-    box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.3),
-                inset 5px 5px 15px rgba(255, 255, 255, 0.5),
-                0 0 20px rgba(125, 249, 255, 0.5);
-  }
-  50% {
-    box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.3),
-                inset 5px 5px 15px rgba(255, 255, 255, 0.5),
-                0 0 35px rgba(125, 249, 255, 0.8);
-  }
+  0%, 100% { box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.3), inset 5px 5px 15px rgba(255, 255, 255, 0.5), 0 0 20px rgba(125, 249, 255, 0.5); }
+  50% { box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.3), inset 5px 5px 15px rgba(255, 255, 255, 0.5), 0 0 35px rgba(125, 249, 255, 0.8); }
 }
 
-/* Small indicator lights */
 .small-lights {
   display: flex;
   gap: 8px;
@@ -166,7 +150,8 @@ CSS variables (custom properties) let you reuse values:
 .small-light.yellow { background: #ffdd55; box-shadow: 0 0 8px #ffdd55; }
 .small-light.green { background: #55ff55; box-shadow: 0 0 8px #55ff55; }
 
-/* Logo */
+.logo-link { text-decoration: none; }
+
 .logo {
   font-family: 'Press Start 2P', cursive;
   font-size: 28px;
@@ -176,7 +161,13 @@ CSS variables (custom properties) let you reuse values:
 }
 ```
 
-## Part 4: Search and Type Filters
+2. Save the file
+
+---
+
+## Step 5: Add Search and Filter Styles
+
+1. Add these styles:
 
 ```css
 /* Search Section */
@@ -188,6 +179,8 @@ CSS variables (custom properties) let you reuse values:
   box-shadow: var(--shadow);
   border: 3px solid #ddd;
 }
+
+.search-form { margin-bottom: 20px; }
 
 .search-input-wrapper {
   display: flex;
@@ -205,9 +198,7 @@ CSS variables (custom properties) let you reuse values:
   transition: border-color 0.3s;
 }
 
-.search-input:focus {
-  border-color: var(--pokedex-red);
-}
+.search-input:focus { border-color: var(--pokedex-red); }
 
 .search-btn {
   padding: 15px 25px;
@@ -224,7 +215,13 @@ CSS variables (custom properties) let you reuse values:
   transform: scale(1.05);
 }
 
-/* Type Filter Buttons */
+/* Type Filter */
+.type-filter label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
 .type-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -248,12 +245,16 @@ CSS variables (custom properties) let you reuse values:
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.type-btn.active {
-  box-shadow: 0 0 0 3px var(--text-dark);
-}
+.type-btn.active { box-shadow: 0 0 0 3px var(--text-dark); }
 ```
 
-## Part 5: Type Badge Colors
+2. Save the file
+
+---
+
+## Step 6: Add Type Color Classes
+
+1. Add these type color classes:
 
 ```css
 /* Type Badge Colors */
@@ -277,7 +278,13 @@ CSS variables (custom properties) let you reuse values:
 .type-fairy, .type-btn.type-fairy { background: var(--type-fairy); }
 ```
 
-## Part 6: Pokemon Grid
+2. Save the file
+
+---
+
+## Step 7: Add Pokemon Grid Styles
+
+1. Add these styles for the Pokemon cards:
 
 ```css
 /* Pokemon Grid */
@@ -299,7 +306,6 @@ CSS variables (custom properties) let you reuse values:
   overflow: hidden;
 }
 
-/* Colored header based on type */
 .pokemon-card::before {
   content: '';
   position: absolute;
@@ -311,13 +317,45 @@ CSS variables (custom properties) let you reuse values:
   border-radius: 20px 20px 0 0;
 }
 
+/* Type Background Colors for Cards */
+.type-bg-normal::before { background: var(--type-normal); }
 .type-bg-fire::before { background: var(--type-fire); }
 .type-bg-water::before { background: var(--type-water); }
-/* ... more type backgrounds ... */
+.type-bg-electric::before { background: var(--type-electric); }
+.type-bg-grass::before { background: var(--type-grass); }
+.type-bg-ice::before { background: var(--type-ice); }
+.type-bg-fighting::before { background: var(--type-fighting); }
+.type-bg-poison::before { background: var(--type-poison); }
+.type-bg-ground::before { background: var(--type-ground); }
+.type-bg-flying::before { background: var(--type-flying); }
+.type-bg-psychic::before { background: var(--type-psychic); }
+.type-bg-bug::before { background: var(--type-bug); }
+.type-bg-rock::before { background: var(--type-rock); }
+.type-bg-ghost::before { background: var(--type-ghost); }
+.type-bg-dragon::before { background: var(--type-dragon); }
+.type-bg-dark::before { background: var(--type-dark); }
+.type-bg-steel::before { background: var(--type-steel); }
+.type-bg-fairy::before { background: var(--type-fairy); }
 
 .pokemon-card:hover {
   transform: translateY(-10px) scale(1.02);
   box-shadow: var(--shadow-lg);
+}
+
+.pokemon-id {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+}
+
+.pokemon-image {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .pokemon-image img {
@@ -328,8 +366,20 @@ CSS variables (custom properties) let you reuse values:
   transition: transform 0.3s;
 }
 
-.pokemon-card:hover .pokemon-image img {
-  transform: scale(1.1);
+.pokemon-card:hover .pokemon-image img { transform: scale(1.1); }
+
+.pokemon-name {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+
+.pokemon-types {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
 }
 
 .type-badge {
@@ -342,169 +392,61 @@ CSS variables (custom properties) let you reuse values:
 }
 ```
 
-### Understanding CSS Grid
+2. Save the file
 
-```css
-.pokemon-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 25px;
-}
-```
+---
 
-This creates a responsive grid:
-- `auto-fill`: Create as many columns as fit
-- `minmax(220px, 1fr)`: Each column is at least 220px, max equal share
-- `gap`: Space between items
+## Step 8: Add Remaining Styles
 
-## Part 7: Stat Bars
+1. Copy the complete CSS file from the project repository
 
-```css
-.stat-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
-  gap: 15px;
-}
+2. The full file includes styles for:
+   - Search results info
+   - Pagination
+   - Pokemon detail page
+   - Stat bars
+   - Error page
+   - Footer
+   - Responsive design
 
-.stat-name {
-  width: 80px;
-  font-weight: 600;
-  font-size: 13px;
-}
+3. Save the file
 
-.stat-bar-container {
-  flex: 1;
-  height: 12px;
-  background: #e8e8e8;
-  border-radius: 6px;
-  overflow: hidden;
-}
+> **Note:** The complete CSS file is available in the repository at `public/css/style.css`
 
-.stat-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--pokedex-red) 0%, #ff6b6b 100%);
-  border-radius: 6px;
-  transition: width 0.5s ease-out;
-}
-```
+---
 
-## Part 8: Responsive Design
+## Step 9: Verify Your CSS
 
-```css
-/* Tablet */
-@media (max-width: 900px) {
-  .pokemon-detail-content {
-    grid-template-columns: 1fr;
-  }
-}
+Your CSS file should style:
+- Header with Pokedex lights
+- Search box and type filter buttons
+- Pokemon card grid with hover effects
+- Pokemon detail page with stats
+- Error page with animated Pokeball
+- Responsive layouts for mobile
 
-/* Mobile */
-@media (max-width: 600px) {
-  .pokedex-header {
-    flex-direction: column;
-    text-align: center;
-  }
+---
 
-  .logo {
-    font-size: 20px;
-  }
+## Step 10: Commit Your Progress
 
-  .pokemon-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 15px;
-  }
-
-  .pokemon-card {
-    padding: 15px;
-  }
-
-  .pokemon-image img {
-    width: 100px;
-    height: 100px;
-  }
-}
-```
-
-### Understanding Media Queries
-
-```css
-@media (max-width: 600px) {
-  /* These styles apply when screen is 600px or narrower */
-}
-```
-
-## Key CSS Techniques Used
-
-### 1. Flexbox for Layout
-
-```css
-display: flex;
-justify-content: center;  /* Horizontal alignment */
-align-items: center;      /* Vertical alignment */
-gap: 10px;               /* Space between items */
-```
-
-### 2. CSS Grid for Card Layout
-
-```css
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-```
-
-### 3. Transitions for Smooth Effects
-
-```css
-transition: transform 0.3s, box-shadow 0.3s;
-```
-
-### 4. CSS Animations
-
-```css
-@keyframes pulse {
-  0%, 100% { /* start/end state */ }
-  50% { /* middle state */ }
-}
-
-.element {
-  animation: pulse 2s infinite;
-}
-```
-
-### 5. Pseudo-elements
-
-```css
-.card::before {
-  content: '';
-  /* Creates an element inside .card */
-}
-```
-
-## Summary
-
-| Section | Purpose |
-|---------|---------|
-| Variables | Reusable colors and values |
-| Header | Pokedex-style navigation |
-| Search | Input and filter buttons |
-| Grid | Responsive card layout |
-| Cards | Pokemon display with hover effects |
-| Detail | Full Pokemon information page |
-| Responsive | Mobile-friendly adjustments |
-
-## Commit Your Progress
-
-Commit your CSS styling:
+1. Stage your changes:
 
 ```bash
 git add .
+```
+
+2. Commit with the conventional format:
+
+```bash
 git commit -m "feat: add CSS styling for pokedex theme
 
 Full Name: Juan Dela Cruz
 Umindanao: juan.delacruz@email.com"
 ```
 
-> **Remember:** Replace the name and email with your own information.
+3. Replace the name and email with your own information
+
+---
 
 ## What's Next?
 

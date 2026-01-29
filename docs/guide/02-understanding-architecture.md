@@ -2,6 +2,8 @@
 
 Before we write code, let's understand the architecture pattern we're using. This will help you understand why files are organized the way they are.
 
+---
+
 ## The Layered Architecture
 
 We're using a **layered architecture** pattern. Think of it like a factory assembly line where each station has one specific job:
@@ -42,13 +44,13 @@ We're using a **layered architecture** pattern. Think of it like a factory assem
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Each Layer Explained
+---
 
-### 1. Routes (`src/routes/`)
+## Step 1: Understand Each Layer
+
+### Routes (`src/routes/`)
 
 **Job:** Direct incoming requests to the right controller.
-
-Think of routes as a receptionist who directs visitors to the right department:
 
 ```javascript
 // Example: When someone visits /pokemon/pikachu
@@ -56,11 +58,9 @@ Think of routes as a receptionist who directs visitors to the right department:
 router.get('/pokemon/:nameOrId', pokemonController.getPokemonDetails);
 ```
 
-### 2. Controllers (`src/controllers/`)
+### Controllers (`src/controllers/`)
 
 **Job:** Handle HTTP requests and responses.
-
-Controllers are like managers - they don't do the actual work, but coordinate everything:
 
 ```javascript
 // Example controller function
@@ -76,11 +76,9 @@ async getPokemonDetails(req, res) {
 }
 ```
 
-### 3. Services (`src/services/`)
+### Services (`src/services/`)
 
 **Job:** Business logic and data transformation.
-
-Services are where the "thinking" happens:
 
 ```javascript
 // Example service function
@@ -96,11 +94,9 @@ async getPokemonDetails(nameOrId) {
 }
 ```
 
-### 4. Repositories (`src/repositories/`)
+### Repositories (`src/repositories/`)
 
 **Job:** Fetch data from external sources (APIs, databases).
-
-Repositories are the only layer that talks to the outside world:
 
 ```javascript
 // Example repository function
@@ -111,7 +107,9 @@ async getPokemonByNameOrId(nameOrId) {
 }
 ```
 
-## Why Use Layers?
+---
+
+## Step 2: Understand Why We Use Layers
 
 ### 1. Separation of Concerns
 
@@ -134,9 +132,11 @@ You can test each layer independently:
 
 As your app grows, the organization stays clean.
 
-## Request Flow Example
+---
 
-Let's trace what happens when a user visits `http://localhost:3000/pokemon/pikachu`:
+## Step 3: Trace a Request Flow
+
+When a user visits `http://localhost:3000/pokemon/pikachu`:
 
 ```
 1. Browser sends GET request to /pokemon/pikachu
@@ -163,7 +163,9 @@ Let's trace what happens when a user visits `http://localhost:3000/pokemon/pikac
    └── Controller → Route → Browser (HTML page)
 ```
 
-## File Structure Recap
+---
+
+## Step 4: Review the File Structure
 
 ```
 src/
@@ -185,7 +187,26 @@ src/
     └── partials/       # Reusable template parts
 ```
 
-## Common Beginner Questions
+---
+
+## Step 5: Remember the Rules
+
+| Layer | Folder | Responsibility |
+|-------|--------|----------------|
+| Routes | `src/routes/` | URL → Controller mapping |
+| Controllers | `src/controllers/` | Handle requests/responses |
+| Services | `src/services/` | Business logic |
+| Repositories | `src/repositories/` | Data fetching |
+
+### Important Rules
+
+1. **Controllers call Services** (never repositories directly)
+2. **Services call Repositories** (never make HTTP calls directly)
+3. **Repositories handle external data** (APIs, databases)
+
+---
+
+## Common Questions
 
 ### Q: Can a controller call a repository directly?
 
@@ -199,18 +220,13 @@ src/
 
 **A:** Basic request validation can go in controllers. Business logic validation goes in services.
 
-## Summary
-
-| Layer | Folder | Responsibility |
-|-------|--------|----------------|
-| Routes | `src/routes/` | URL → Controller mapping |
-| Controllers | `src/controllers/` | Handle requests/responses |
-| Services | `src/services/` | Business logic |
-| Repositories | `src/repositories/` | Data fetching |
+---
 
 ## Commit Your Progress
 
 This section was about understanding concepts, so there's no code to commit yet. Continue to the next section to start writing code.
+
+---
 
 ## What's Next?
 
