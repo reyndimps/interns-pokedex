@@ -51,28 +51,43 @@ jobs:
   gitignore-check:
     name: Gitignore Integrity Check
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
-  
-      - name: Compare .gitignore with expected content
+
+      - name: Verify .gitignore integrity
         env:
           EXPECTED_GITIGNORE: ${{ secrets.EXPECTED_GITIGNORE }}
         run: |
-          # Normalize newlines to avoid diff mismatch
-          echo "$EXPECTED_GITIGNORE" | sed '/^$/d' > /tmp/expected_gitignore
-          sed -i '/^$/d' .gitignore
-  
-          # Compare files
-          if ! diff -q .gitignore /tmp/expected_gitignore > /dev/null 2>&1; then
-            echo "::error::.gitignore has been modified! This file is protected and cannot be changed."
-            echo ""
-            echo "Differences found:"
-            diff .gitignore /tmp/expected_gitignore || true
+          set -e
+
+          # Ensure secret exists
+          if [ -z "$EXPECTED_GITIGNORE" ]; then
+            echo "::error::EXPECTED_GITIGNORE secret is missing or empty."
             exit 1
           fi
-  
-          echo "✅ .gitignore integrity check passed"
+
+          # Write expected gitignore from secret
+          printf "%s" "$EXPECTED_GITIGNORE" > /tmp/expected_gitignore
+
+          # Normalize line endings (CRLF -> LF)
+          sed -i 's/\r$//' .gitignore
+          sed -i 's/\r$//' /tmp/expected_gitignore
+
+          # Compute hashes
+          ACTUAL_HASH=$(sha256sum .gitignore | awk '{print $1}')
+          EXPECTED_HASH=$(sha256sum /tmp/expected_gitignore | awk '{print $1}')
+
+          # Compare hashes
+          if [ "$ACTUAL_HASH" != "$EXPECTED_HASH" ]; then
+            echo "::error::.gitignore has been modified! This file is protected and cannot be changed."
+            echo "Expected hash: $EXPECTED_HASH"
+            echo "Actual hash:   $ACTUAL_HASH"
+            exit 1
+          fi
+
+          echo "✅ .gitignore integrity check passed."
 
 
   lint:
