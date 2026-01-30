@@ -213,7 +213,7 @@ git add .
 git commit -m "feat: add express application entry point
 
 Full Name: Juan Dela Cruz
-Umindanao: juan.delacruz@email.com"
+Umindanao Email: j.delacruz.123456@umindanao.edu.ph"
 ```
 
 3. Replace the name and email with your own information
@@ -276,7 +276,7 @@ feat: complete pokedex application
 - [ ] No linting errors (`npm run lint`)
 
 Full Name: Juan Dela Cruz
-Umindanao: juan.delacruz@email.com
+Umindanao Email: j.delacruz.123456@umindanao.edu.ph
 ```
 
 7. Click **Create Pull Request**
