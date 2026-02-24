@@ -74,6 +74,7 @@ if (nodeEnv !== 'test') {
 }
 
 // Export for testing
+
 export default app;
 
 // ============================================
