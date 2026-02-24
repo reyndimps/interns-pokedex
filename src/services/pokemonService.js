@@ -1,6 +1,5 @@
 import * as pokemonRepository from '../repositories/pokemonRepository.js';
 import { config } from '../config/index.js';
-
 /**
  * Format Pokemon name for display
  * "mr-mime" → "Mr Mime"
@@ -26,7 +25,6 @@ const formatStatName = (name) => {
   };
   return statNames[name] || formatName(name);
 };
-
 /**
  * Transform raw Pokemon data into display-ready format
  */
@@ -76,7 +74,6 @@ const formatPokemonData = (pokemon, species = null) => {
     baseHappiness: species?.base_happiness || 0
   };
 };
-
 export const getPokemonDetails = async (nameOrId) => {
   // Get basic Pokemon data
   const pokemon = await pokemonRepository.getPokemonByNameOrId(nameOrId);
@@ -122,7 +119,37 @@ export const getAllPokemon = async (page = 1, limit = config.pagination.defaultL
     hasPrevPage: page > 1
   };
 };
+export const searchPokemon = async (query) => {
+  // Handle empty query
+  if (!query || query.trim().length === 0) {
+    return { pokemon: [], totalCount: 0 };
+  }
 
+  // First try exact match (faster)
+  const exactMatch = await pokemonRepository.getPokemonByNameOrId(query);
+  if (exactMatch) {
+    const formatted = await getPokemonDetails(query);
+    return {
+      pokemon: formatted ? [formatted] : [],
+      totalCount: formatted ? 1 : 0
+    };
+  }
+
+  // If no exact match, search by partial name
+  const searchResults = await pokemonRepository.searchPokemon(query);
+
+  // Get details for first 20 results
+  const pokemonWithDetails = await Promise.all(
+    searchResults.results.slice(0, 20).map((pokemon) => {
+      return getPokemonDetails(pokemon.name);
+    })
+  );
+
+  return {
+    pokemon: pokemonWithDetails.filter((p) => p !== null),
+    totalCount: searchResults.count
+  };
+};
 export const getPokemonTypes = async () => {
   const types = await pokemonRepository.getPokemonTypes();
 
