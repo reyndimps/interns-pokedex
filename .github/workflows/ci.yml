@@ -2,7 +2,6 @@ name: Project Submission Pipeline
 
 on:
   pull_request:
-    branches: ['*/pokedex-pull-request']
 
 jobs:
   extract-pr-info:
